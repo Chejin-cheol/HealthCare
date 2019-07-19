@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,6 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cs.healthCare.R;
+import cs.healthCare.network.NetworkManager;
+
+import static cs.healthCare.network.NetworkManager.Get_Internet;
+import static cs.healthCare.network.NetworkManager.NETWORK_CONNECT_ERROR;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private RequestQueue queue;
     private String spw;
     private AlertDialog dialog;
+
 
 
     public StringBuffer LockPassword(String password) {
@@ -145,7 +151,15 @@ public class LoginActivity extends AppCompatActivity {
 
                 String login_id = ed_id.getText().toString();
                 String login_pw = ed_pw.getText().toString();
-                if(login_id.equals("")||login_pw.equals(""))
+                int network;
+                network = NetworkManager.Get_Internet(LoginActivity.this);
+                Log.i("asdasd123","dddd"+network);
+                if (network == NETWORK_CONNECT_ERROR)
+                {
+                    Toast.makeText(LoginActivity.this,"인터넷 연결을 확인해주세요.",Toast.LENGTH_SHORT).show();
+                    Log.i("123123","123123"+network);
+                }
+                else if(login_id.equals("")||login_pw.equals(""))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     dialog = builder.setMessage("비어있삼").setNegativeButton("OK",null).create();
