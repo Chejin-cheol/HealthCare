@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 String hex = Integer.toHexString(0xff & hash[i]);
 
                 if (hex.length() == 1)
-
                     hexString.append('0');
 
                 hexString.append(hex);
@@ -114,9 +113,9 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jobject = new JSONObject(response);
                             it.putExtra("id",jobject.getString("user_id"));
                             it.putExtra("nickname",jobject.getString("user_nickname"));
-                            SharedPreferences sharedPreferences = getSharedPreferences("sFile", MODE_PRIVATE);
+                            SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("logintoken", jobject.getString("token"));
+                            editor.putString("token", jobject.getString("token"));
                             editor.commit();
                             startActivity(it);
 
