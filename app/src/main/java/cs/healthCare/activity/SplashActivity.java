@@ -48,6 +48,8 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splash_activity);
 
+        Log.i("git","git");
+
         SharedPreferences sf = getSharedPreferences("files", MODE_PRIVATE);
         boolean isSaved = sf.getBoolean("fileSaved", false);
 

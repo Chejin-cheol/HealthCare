@@ -16,7 +16,6 @@ import cs.healthCare.model.Data;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder> {
 
-
     //adapter에 들어갈 list
     private ArrayList<Data> listData = new ArrayList();
     private ItemClickListener mClcikListener = null;
