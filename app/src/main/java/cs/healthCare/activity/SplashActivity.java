@@ -61,8 +61,6 @@ public class SplashActivity extends AppCompatActivity {
             saveFiles();
         }
     }
-
-
         private void saveFiles() {
             for (int i = 1000; i <= 1007; i++) {
                 daownloadQueue.add(i);
@@ -100,12 +98,12 @@ public class SplashActivity extends AppCompatActivity {
             //최종 커밋
             editor.commit();
             Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
 
             super.onPostExecute(obj);
         }
-
 
         private void download(Queue q) {
             File dir = new File(savePath);
@@ -158,11 +156,11 @@ public class SplashActivity extends AppCompatActivity {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                final Intent log1 =new Intent(SplashActivity.this, LoginActivity.class );
                 final Intent log2 =new Intent(SplashActivity.this, MainActivity.class );
                 if (response.equals("Fail"))
                 {
                     Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
                 }
@@ -177,7 +175,9 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    log2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(log2);
+                    finish();
                 }
             }
         }, new Response.ErrorListener() {

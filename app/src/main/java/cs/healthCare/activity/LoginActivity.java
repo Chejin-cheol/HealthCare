@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
             // 출력
-            Log.i("22222222222"+hexString.toString(),"zzzzzzzzzzzzzzzzzzzzzzzzz");
             System.out.println(hexString.toString());
             return hexString;
 
@@ -117,15 +116,13 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("token", jobject.getString("token"));
                             editor.commit();
+                            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(it);
-
+                            finish();
                         }
                         catch(Exception e)
                         {
-
                         }
-
-
                     }
 
             }
@@ -152,11 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                 String login_pw = ed_pw.getText().toString();
                 int network;
                 network = NetworkManager.Get_Internet(LoginActivity.this);
-                Log.i("asdasd123","dddd"+network);
                 if (network == NETWORK_CONNECT_ERROR)
                 {
                     Toast.makeText(LoginActivity.this,"인터넷 연결을 확인해주세요.",Toast.LENGTH_SHORT).show();
-                    Log.i("123123","123123"+network);
                 }
                 else if(login_id.equals("")||login_pw.equals(""))
                 {
@@ -169,9 +164,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     queue.add(stringRequest);
                 }
-
-
-
             }
         });
         bt_reg.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         }
-
             protected void onStop() {
                 super.onStop();
 
