@@ -49,9 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     public StringBuffer LockPassword(String password) {
 
         try {
-
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-
             byte[] hash = digest.digest(password.getBytes("UTF-8"));
 
             StringBuffer hexString = new StringBuffer();
@@ -64,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (hex.length() == 1)
                     hexString.append('0');
-
                 hexString.append(hex);
 
             }
@@ -96,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
         //------------------------------토큰 값 저장하기위해----------------------------
         SharedPreferences sf = getSharedPreferences("sFile",MODE_PRIVATE);
         String text = sf.getString("logintoken","");
-
 
         //------------------------------------------------------------------------------
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

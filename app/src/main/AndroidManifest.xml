@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-
-
     <application
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden"
@@ -49,3 +47,5 @@
 
     </application>
 </manifest>
+
+

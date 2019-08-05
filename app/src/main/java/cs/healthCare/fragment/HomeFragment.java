@@ -8,7 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.ArrayList;
 
@@ -17,8 +21,7 @@ import cs.healthCare.R;
 public class HomeFragment extends Fragment {
         Context _context;
         View  root;
-        TextView textView;
-        ArrayList a1;
+        ImageView character;
 
 
     public static HomeFragment newInstance()
@@ -26,16 +29,15 @@ public class HomeFragment extends Fragment {
         return new HomeFragment();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.home_fragment, container, false);
         _context = container.getContext();
-       // textView = root.findViewById(R.id.text3);
+        character = (ImageView) root.findViewById(R.id.character);
+        GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(character);
+        Glide.with(this).load(R.drawable.character_default).into(gifImage);
         return root;
-
-
     }
 
 
