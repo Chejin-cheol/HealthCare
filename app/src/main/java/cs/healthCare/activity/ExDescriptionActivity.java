@@ -9,8 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +36,7 @@ public class ExDescriptionActivity extends Activity {
     static String[] sa;
     ImageView iv;
     ViewGroup top;
-    FloatingActionButton fab;
+
 
 
     @Override
@@ -62,7 +64,18 @@ public class ExDescriptionActivity extends Activity {
         tex.setPadding(textpaddding , tex.getPaddingTop() , textpaddding ,tex.getPaddingBottom());
 
         sendRequest(intent.getExtras().getInt("list_id"));
-    }
+
+        Button bluetooth_bt = (Button) findViewById(R.id.bluetooth_bt);
+        bluetooth_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExBluetoothTest.class);
+                startActivity(intent);
+            }//void onClick
+        });//bluetooth_bt.setOnClickListener
+
+        //bluetooth_bt
+    }//void onCreate
 
 
     private void setlayoutSize() {
@@ -122,7 +135,7 @@ public class ExDescriptionActivity extends Activity {
 
         queue.add(stringRequest);
 
-    }
+    }//void sendRequest()
 
 
-}
+}//class ExDescriptionActivity

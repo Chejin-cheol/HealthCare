@@ -79,29 +79,23 @@
         android:layout_weight="1"></LinearLayout>
 
 
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
-        >
-        <LinearLayout
-            android:id="@+id/mid"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" ></LinearLayout>
+        android:orientation="horizontal"
+        android:paddingRight="100dp"
+        android:paddingLeft="100dp">
 
+            <Button
+                android:id="@+id/bluetooth_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:text="Bluetooth 임시" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:layout_anchor="@id/mid"
-            app:layout_anchorGravity="center"
-            />
-
-
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
