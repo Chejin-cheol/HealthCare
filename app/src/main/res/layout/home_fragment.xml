@@ -17,33 +17,31 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="4"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:gravity="center">
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/exercise"
-            android:layout_width="0dip"
+            android:id="@+id/home_exercise"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/roundedbutton"
-            android:text="운동"
-            />
+            android:background="@drawable/home_ex_button"
+            android:text="운동" />
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/friendly"
-            android:layout_width="0dip"
+            android:id="@+id/home_friendly"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/home_freindly_button"
             android:text="친밀도"/>
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/meal"
-            android:layout_width="0dip"
+            android:id="@+id/home_feed"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/home_feed_button"
             android:text="식사"/>
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/play"
-            android:layout_width="0dip"
+            android:id="@+id/home_play"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/home_play_button"
             android:text="놀아주기"/>
     </LinearLayout>
 

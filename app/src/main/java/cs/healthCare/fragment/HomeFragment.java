@@ -1,5 +1,6 @@
 package cs.healthCare.fragment;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,18 +11,25 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.ArrayList;
 
 import cs.healthCare.R;
+import cs.healthCare.activity.GrowUpExerciseActivity;
 import cs.healthCare.service.CharacterService;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -71,13 +79,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     {
                         button_set.setVisibility(View.VISIBLE);
                     }
-                    _service.changeActionMode();
                 }
             });
 
             _intent = new Intent(_context , CharacterService.class);
             _context.bindService(_intent , _connection ,Context.BIND_AUTO_CREATE);
             _context.startService(_intent);
+            setLayout();
         }
         return root;
     }
@@ -89,11 +97,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        /*switch (v)
+        switch (v.getId())
         {
-            case R,id
+            case R.id.home_exercise :
+                Intent intent = new Intent(_context , GrowUpExerciseActivity.class);
+                startActivity(intent);
+                break;
+            case  R.id.home_friendly :
+                break;
+            case R.id.home_feed :
+                break;
+            case R.id.home_play :
+                break;
         }
-        */
+
+    }
+
+
+    private void setLayout()
+    {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) _context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        int buttonSize = (int)(metrics.widthPixels * 0.15);
+        int buttonMargin = (int)( metrics.widthPixels * 0.4 )/8;
+
+        for(int i=0;i<button_set.getChildCount() ;i++)
+        {
+            View v = button_set.getChildAt(i);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(buttonSize , buttonSize);
+            params.setMargins(buttonMargin , buttonMargin ,buttonMargin ,buttonMargin);
+            v.setLayoutParams(params);
+            v.setOnClickListener(this);
+        }
     }
 }
 

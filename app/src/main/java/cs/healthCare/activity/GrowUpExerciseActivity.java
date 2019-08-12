@@ -1,9 +1,8 @@
 package cs.healthCare.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,23 +22,20 @@ import cs.healthCare.R;
 import cs.healthCare.adapter.HealthListRecyclerAdapter;
 import cs.healthCare.model.HealthListData;
 
-public class ExListActivity extends AppCompatActivity {
+public class GrowUpExerciseActivity extends Activity {
     private RecyclerView recyclerView;
     private HealthListRecyclerAdapter adapter;
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ex_list);
+        setContentView(R.layout.growup_activity);
 
-         Intent i = getIntent();
-         int id = i.getExtras().getInt("list_id");
-         recyclerView = findViewById(R.id.ex_recycler);
-         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.grou_up_recycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-         adapter = new HealthListRecyclerAdapter();
-         recyclerView.setAdapter(adapter);
-         adapter.setItemClick(new HealthListRecyclerAdapter.ItemClick() {
+        adapter = new HealthListRecyclerAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.setItemClick(new HealthListRecyclerAdapter.ItemClick() {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(view.getContext() , ExDescriptionActivity.class);
@@ -47,15 +43,15 @@ public class ExListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        sendRequest(id);
+        sendRequest();
     }
 
-    public void sendRequest(final int id){
-        Log.i("ssss :"+id," 큐큐큐");
+
+    public void sendRequest(){
         // RequestQueue를 새로 만들어준다.
         RequestQueue queue = Volley.newRequestQueue(this);
         // Request를 요청 할 URL
-        String url ="http://61.84.24.251:3000/list/items?id="+id;
+        String url ="http://61.84.24.251:3000/list/growup";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
