@@ -46,6 +46,7 @@
         <activity android:name=".activity.ExDescriptionActivity" />
         <activity android:name=".activity.ExBluetoothTest"/>
 
+        <service android:name=".service.CharacterService" />
     </application>
 </manifest>
 
