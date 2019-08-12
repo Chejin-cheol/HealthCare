@@ -37,17 +37,11 @@ public class ExcerciseFragment extends Fragment{
         tabLayout = parent.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adator);
-
         return parent;
     }
-
-
-
-
     public static ExcerciseFragment newInstance()
     {
         return new ExcerciseFragment();
     }
-
 }
 
