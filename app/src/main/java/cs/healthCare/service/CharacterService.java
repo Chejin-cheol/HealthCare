@@ -46,6 +46,8 @@ public class CharacterService extends Service implements  Runnable{
                 case DEFAULT_MOTION :
                     Glide.with(CharacterService.this).load(R.drawable.characater_default).into(gifImage);
                     break;
+                case TAIL_MOTION :
+                    break;
             }
         }
 }
@@ -92,7 +94,7 @@ public class CharacterService extends Service implements  Runnable{
         while(true)
         {
             if(!isPause) {
-                    try {
+                        /*
                         Thread.sleep(3000);
                         if(currentMotion ==0)
                         {
@@ -104,11 +106,7 @@ public class CharacterService extends Service implements  Runnable{
                             _handler.sendEmptyMessage(0);
                             currentMotion = 0;
                         }
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
+                        */
             }
         }
     }

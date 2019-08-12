@@ -40,7 +40,12 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppNoTitle"></activity>
+            android:theme="@style/AppNoTitle" />
+        <activity
+            android:name=".activity.GrowUpExerciseActivity"
+            android:theme="@style/AppNoTitle"
+            />
+
 
         <activity android:name=".activity.ExListActivity" />
         <activity android:name=".activity.ExDescriptionActivity" />
