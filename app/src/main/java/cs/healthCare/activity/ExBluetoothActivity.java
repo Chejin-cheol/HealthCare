@@ -176,6 +176,4 @@ public class ExBluetoothActivity extends AppCompatActivity {
         });
         workerThread.start();
     }
-
-
 }
