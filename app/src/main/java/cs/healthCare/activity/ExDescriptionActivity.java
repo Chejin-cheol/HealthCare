@@ -43,11 +43,7 @@ public class ExDescriptionActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setlayoutSize();
 
-
         Intent intent =  getIntent();
-        Log.i("인덱스" ,"" + intent.getExtras().getInt("list_id"));
-
-
         tex = findViewById(R.id.tex);
         title=findViewById(R.id.textitle);
         iv = findViewById(R.id.iv);
@@ -71,8 +67,6 @@ public class ExDescriptionActivity extends Activity {
                 startActivity(intent);
             }//void onClick
         });//bluetooth_bt.setOnClickListener
-
-        //bluetooth_bt
     }//void onCreate
 
 
@@ -96,7 +90,6 @@ public class ExDescriptionActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);

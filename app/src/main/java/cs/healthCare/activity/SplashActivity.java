@@ -68,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
             for (int i = 2000; i <= 2020; i++) {
                 daownloadQueue.add(i);
             }
-
         downloadAsync = new ImageDownload();
         downloadAsync.execute(daownloadQueue);
     }
@@ -85,7 +84,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Queue doInBackground(Queue... params) {
-
             download(params[0]);
             return params[0];
         }
@@ -140,7 +138,6 @@ public class SplashActivity extends AppCompatActivity {
                 if (!q.isEmpty()) {
                     download(q);
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
