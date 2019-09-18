@@ -51,7 +51,6 @@ public class ExListActivity extends AppCompatActivity {
     }
 
     public void sendRequest(final int id){
-        Log.i("ssss :"+id," 큐큐큐");
         // RequestQueue를 새로 만들어준다.
         RequestQueue queue = Volley.newRequestQueue(this);
         // Request를 요청 할 URL

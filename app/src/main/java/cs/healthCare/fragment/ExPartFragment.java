@@ -63,7 +63,6 @@ public class ExPartFragment extends Fragment {
                 Toast.makeText(getContext() , ""+position , Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(parent.getContext() , ExListActivity.class);
                 intent.putExtra("list_id", (int)view.getTag());
-                Log.i("규규규",(int)view.getTag()+"");
                 startActivity(intent);
             }
         });

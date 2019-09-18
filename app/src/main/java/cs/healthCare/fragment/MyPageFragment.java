@@ -52,8 +52,6 @@ public class MyPageFragment extends Fragment {
         {
             return root;
         }
-
-        Log.i("22222222",getActivity()+"555");
         root = inflater.inflate(R.layout.mypage_fragment, container, false);
 
         id=root.findViewById(R.id.tv_myPageId);

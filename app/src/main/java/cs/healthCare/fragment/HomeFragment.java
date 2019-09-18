@@ -110,10 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.home_play :
                 break;
         }
-
     }
-
-
     private void setLayout()
     {
         DisplayMetrics metrics = new DisplayMetrics();

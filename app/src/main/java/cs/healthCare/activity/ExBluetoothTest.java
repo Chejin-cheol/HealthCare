@@ -37,7 +37,7 @@ public class ExBluetoothTest extends AppCompatActivity {
     //UI
     TextView txtState;
     Button btnSearch;
-   CheckBox chkFindme;
+    CheckBox chkFindme;
     ListView listDevice;
     ListView listParied;
 
@@ -142,7 +142,7 @@ public class ExBluetoothTest extends AppCompatActivity {
                 }//try catch
             }//void onItemClick
         });//listDevice.setOnItemClickListener
-    }
+    }//void onCreate
 
 
     //블루투스 상태변화 BroadcastReceiver
@@ -266,7 +266,7 @@ public class ExBluetoothTest extends AppCompatActivity {
             mbluetoothAdapter.cancelDiscovery();
         }//if
         mbluetoothAdapter.startDiscovery(); //블루투스 검색 시작
-    }
+    }//void mOnBlutoothSearch
 
     //검색 응답 모드 - 블루투스가 외부 블루투스의 요청에 답변하는 슬레이브 상태
     public void mOnChkFindme(View v){ //검색 응답 체크박스 클릭 함수

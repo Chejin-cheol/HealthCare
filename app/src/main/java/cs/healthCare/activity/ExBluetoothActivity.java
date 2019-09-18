@@ -113,10 +113,6 @@ public class ExBluetoothActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     public void receiveData() {
         final Handler handler = new Handler();
         // 데이터를 수신하기 위한 버퍼를 생성
