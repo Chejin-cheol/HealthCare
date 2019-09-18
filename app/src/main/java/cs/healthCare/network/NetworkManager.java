@@ -8,7 +8,7 @@ public class NetworkManager {
     public static final int NETWORK_CONNECT_ERROR = 0;
     public static final int NETWORK_CONNECT = 1;
 
-    public static int Get_Internet(Context context)
+    public static int getInternet(Context context)
     {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
