@@ -33,9 +33,9 @@ import java.util.Map;
 import java.util.Queue;
 
 import cs.healthCare.R;
+import cs.healthCare.network.Resource;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final String URL = "http://61.84.24.251:3000/source/";
     Queue daownloadQueue = new LinkedList();
     ImageDownload downloadAsync;
     private String id,name;
@@ -111,9 +111,8 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             fileName = q.poll().toString();
-            String fileUrl = URL + fileName;
+            String fileUrl = Resource.getUrl("source/") + fileName;
             String localPath = savePath + fileName + ".jpg";
-
             try {
                 URL imgUrl = new URL(fileUrl);
                 //서버와 접속하는 클라이언트 객체 생성
@@ -146,14 +145,15 @@ public class SplashActivity extends AppCompatActivity {
     private void sendToken(){
 
         queue = Volley.newRequestQueue(this);
-        String url = "http://61.84.24.251:3000/users/Verify";
+        String url = Resource.getUrl("users/Verify");
+
         SharedPreferences pref = getSharedPreferences("user",MODE_PRIVATE);
         final String token1 = pref.getString("token","");
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                final Intent log2 =new Intent(SplashActivity.this, MainActivity.class );
+
                 if (response.equals("Fail"))
                 {
                     Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
@@ -163,6 +163,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    Intent log2 =new Intent(SplashActivity.this, MainActivity.class );
                     try {
                         JSONObject json = new JSONObject(response);
                         id=json.getString("id");
@@ -182,7 +183,6 @@ public class SplashActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         })
-
         {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

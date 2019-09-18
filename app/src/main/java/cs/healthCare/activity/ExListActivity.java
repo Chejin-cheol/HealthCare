@@ -22,6 +22,7 @@ import org.json.JSONException;
 import cs.healthCare.R;
 import cs.healthCare.adapter.HealthListRecyclerAdapter;
 import cs.healthCare.model.HealthListData;
+import cs.healthCare.network.Resource;
 
 public class ExListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -54,8 +55,7 @@ public class ExListActivity extends AppCompatActivity {
         // RequestQueue를 새로 만들어준다.
         RequestQueue queue = Volley.newRequestQueue(this);
         // Request를 요청 할 URL
-        String url ="http://61.84.24.251:3000/list/items?id="+id;
-
+        String url = Resource.getUrl("list/items?id="+id);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

@@ -25,6 +25,7 @@ import cs.healthCare.R;
 import cs.healthCare.activity.ExListActivity;
 import cs.healthCare.adapter.RecyclerAdapter;
 import cs.healthCare.model.Data;
+import cs.healthCare.network.Resource;
 
 
 public class ExPartFragment extends Fragment {
@@ -78,7 +79,7 @@ public class ExPartFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         // Request를 요청 할 URL
-        String url ="http://61.84.24.251:3000/list";
+        String url = Resource.getUrl("list");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

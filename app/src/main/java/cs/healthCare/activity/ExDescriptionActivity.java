@@ -29,6 +29,7 @@ import org.json.JSONException;
 import java.io.File;
 
 import cs.healthCare.R;
+import cs.healthCare.network.Resource;
 
 public class ExDescriptionActivity extends Activity {
     TextView tex,title;
@@ -84,7 +85,7 @@ public class ExDescriptionActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         // Request를 요청 할 URL
-        String url ="http://61.84.24.251:3000/extext?id="+index;
+        String url = Resource.getUrl("extext?id="+index);
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

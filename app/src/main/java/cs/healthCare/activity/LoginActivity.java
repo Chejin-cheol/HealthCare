@@ -28,8 +28,9 @@ import java.util.Map;
 
 import cs.healthCare.R;
 import cs.healthCare.network.NetworkManager;
+import cs.healthCare.network.Resource;
 
-import static cs.healthCare.network.NetworkManager.Get_Internet;
+import static cs.healthCare.network.NetworkManager.getInternet;
 import static cs.healthCare.network.NetworkManager.NETWORK_CONNECT_ERROR;
 
 
@@ -44,9 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private String spw;
     private AlertDialog dialog;
 
-
-
-    public StringBuffer LockPassword(String password) {
+    private StringBuffer LockPassword(String password) {
 
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -54,8 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
             StringBuffer hexString = new StringBuffer();
             String spw2;
-
-
             for (int i = 0; i < hash.length; i++) {
 
                 String hex = Integer.toHexString(0xff & hash[i]);
@@ -88,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         bt_reg=(Button)findViewById(R.id.bt_reg);
 
         queue = Volley.newRequestQueue(this);
-        String url = "http://61.84.24.251:3000/users/Login";
+        String url = Resource.getUrl("users/Login");
 
         //------------------------------토큰 값 저장하기위해----------------------------
         SharedPreferences sf = getSharedPreferences("sFile",MODE_PRIVATE);
@@ -144,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 String login_id = ed_id.getText().toString();
                 String login_pw = ed_pw.getText().toString();
                 int network;
-                network = NetworkManager.Get_Internet(LoginActivity.this);
+                network = NetworkManager.getInternet(LoginActivity.this);
                 if (network == NETWORK_CONNECT_ERROR)
                 {
                     Toast.makeText(LoginActivity.this,"인터넷 연결을 확인해주세요.",Toast.LENGTH_SHORT).show();
@@ -157,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 else{
-
                     queue.add(stringRequest);
                 }
             }

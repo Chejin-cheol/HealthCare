@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cs.healthCare.R;
+import cs.healthCare.network.Resource;
 
 public class JoinActivity extends Activity {
 
@@ -93,7 +94,7 @@ public class JoinActivity extends Activity {
         Button btBmiCalc=(Button)findViewById(R.id.btn_BmiCalc);
 
         queue = Volley.newRequestQueue(this);
-        String url = "http://61.84.24.251:3000/users/Regist";
+        String url = Resource.getUrl("users/Regist");
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
