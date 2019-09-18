@@ -50,14 +50,11 @@ public class JoinActivity extends Activity {
     private  Float bmi;
 
     public final StringBuffer LockPassword(String password) {
-
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes("UTF-8"));
-
             StringBuffer hexString = new StringBuffer();
             String spw2;
-
 
             for (int i = 0; i < hash.length; i++) {
 
@@ -130,12 +127,10 @@ public class JoinActivity extends Activity {
                         SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token",token); // key, value를 이용하여 저장하는 형태
-                        Log.i("토큰",token);
                         editor.commit();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
         }, new Response.ErrorListener() {
@@ -164,12 +159,7 @@ public class JoinActivity extends Activity {
                     params.put("user_bmi", bmi.toString());
                     params.put("user_nickname", userNickname.getText().toString());
                 }
-
-
                 return params;
-
-
-
             }
         };
 
@@ -217,9 +207,6 @@ public class JoinActivity extends Activity {
 
                 }
             }
-
-
-
             @Override
             public void afterTextChanged(Editable editable) {
 
@@ -270,7 +257,6 @@ public class JoinActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Bcheck= true;
-                Log.i("ㅂㅈㄷㅂㅈㄷㅂㅈㄷ","ㅇㅇㅇㅇㅇ");
                 queue.add(stringRequest);
 
 
