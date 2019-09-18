@@ -36,10 +36,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         public static Context _context;
         Intent _intent;
         CharacterService _service;
-        int i=0;
         View  root;
         ImageView character;
         ViewGroup button_set;
+
+        private final float ButtonRate = 0.15f;
+        private final float ButtonMarginRate = 0.05f;
 
         //서비스 연결
         ServiceConnection _connection = new ServiceConnection() {
@@ -115,8 +117,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     {
         DisplayMetrics metrics = new DisplayMetrics();
         ((WindowManager) _context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
-        int buttonSize = (int)(metrics.widthPixels * 0.15);
-        int buttonMargin = (int)( metrics.widthPixels * 0.4 )/8;
+        int buttonSize = (int)(metrics.widthPixels * ButtonRate);
+        int buttonMargin = (int)( metrics.widthPixels * ButtonMarginRate );
 
         for(int i=0;i<button_set.getChildCount() ;i++)
         {

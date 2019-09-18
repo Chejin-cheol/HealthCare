@@ -28,18 +28,6 @@ public class MyPageFragment extends Fragment {
     ImageButton bt_myInfo;
     TextView id,name;
 
-
-
-
-
-
-    public MyPageFragment()
-    {
-//
-
-    }
-
-
     public static MyPageFragment newInstance()
     {
         return new MyPageFragment();
@@ -58,9 +46,6 @@ public class MyPageFragment extends Fragment {
         name=root.findViewById(R.id.tv_myPageNick);
         id.setText("아이디 : "+mid);
         name.setText("닉네임 : "+mname);
-
-
-
         bt_myInfo = root.findViewById(R.id.btn_myInfo);
 
         bt_myInfo.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +55,6 @@ public class MyPageFragment extends Fragment {
                 startActivity(intent);
             }
         });//end of btMember
-
-
 
         return root;
     }//end of onCreateView
