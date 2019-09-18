@@ -37,8 +37,6 @@ public class ExDescriptionActivity extends Activity {
     ImageView iv;
     ViewGroup top;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

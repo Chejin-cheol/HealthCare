@@ -103,7 +103,6 @@ public class JoinActivity extends Activity {
             public void onResponse(String response) {
                 if (Bcheck)
                 {
-                    Log.i("리스폰스에서 이프문 참","123456789@@@@@@ "+response);
                     if (response.equals("1"))
                     {
                         Toast.makeText(getApplicationContext(),"중복된 아이디 입니다.",Toast.LENGTH_SHORT).show();
