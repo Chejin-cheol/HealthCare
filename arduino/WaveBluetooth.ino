@@ -1,4 +1,4 @@
-#include <SoftwareSerial.h> //시리얼통신 라이브러리 호출
+﻿#include <SoftwareSerial.h> //시리얼통신 라이브러리 호출
 
 int distance = 0; 
 int pushcount = 0;
