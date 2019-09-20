@@ -64,7 +64,7 @@ public class ExDescriptionActivity extends Activity {
         bluetooth_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExBluetoothTest.class);
+                Intent intent = new Intent(getApplicationContext(), TrainingActivity.class);
                 startActivity(intent);
             }//void onClick
         });//bluetooth_bt.setOnClickListener
@@ -100,20 +100,14 @@ public class ExDescriptionActivity extends Activity {
                                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                                 iv.setImageBitmap(myBitmap);
                             }
-
-
                             dd = jsonArray.getJSONObject(0).getString("ex_text");
 
-
                             sa=dd.split("#");
-                            Log.i("5555555",sa.length+"");
                             for(int i=0;i<sa.length;i++)
                             {
                                 tex.setText(tex.getText() +"\n\n"+sa[i]);
                             }
                             title.setText(jsonArray.getJSONObject(0).getString("ex_name"));
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

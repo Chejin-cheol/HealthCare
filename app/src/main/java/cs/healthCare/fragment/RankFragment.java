@@ -22,25 +22,12 @@ public class RankFragment extends Fragment {
         return new RankFragment();
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.rank_fragment, container, false);
         _context = container.getContext();
-
-
         return root;
-
-
-
-
-
     }
-
-
-
-
 }
 
