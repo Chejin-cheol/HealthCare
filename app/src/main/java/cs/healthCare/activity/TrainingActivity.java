@@ -33,9 +33,9 @@ import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 public class TrainingActivity extends Activity  implements BluetoothClient  {
     int timeCount = 0;
-    int TIME_MAX = 10;
+    int TIME_MAX = 60;
 
-    Handler timeHandler ;
+    Handler timeHandler , counterHander ;
     TimerTask timerTask;
     Timer timer;
 
@@ -88,6 +88,12 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             }
         };
 
+        counterHander = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                counter.setText(msg.obj.toString());
+            }
+        };
     }
 
     private void startTimeTask()
@@ -146,8 +152,14 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         }
     }
 
+
+    // bluetooth client
     @Override
-    public void receiveData(int data) {
+    public void receiveData(String data) {
+        Message  msg = new Message();
+        msg.obj = data;
+        Log.i(" 데이터 "," ==> " + data);
+        counterHander.sendMessage(msg);
     }
 
     @Override

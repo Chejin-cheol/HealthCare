@@ -76,11 +76,12 @@ public class BluetoothDataService extends Service {
                                     inputStream.read(bytes);
                                     for (int i = 0; i < availableBytes; i++) {
                                         byte tempByte = bytes[i];
-                                        if (tempByte == 32) {
+                                        if (tempByte == 10) {
                                             byte[] encodedBytes = new byte[readBufferPosition];
                                             System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                             final String text = new String(encodedBytes, "US-ASCII");
-                                            Log.i("답",readBufferPosition+" " + text );
+                                            Log.i("답", text );
+                                            client.receiveData(text);
                                             readBufferPosition = 0;
                                         } else {
                                             readBuffer[readBufferPosition++] = tempByte;
