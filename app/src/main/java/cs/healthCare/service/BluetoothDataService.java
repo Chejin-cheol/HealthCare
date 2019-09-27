@@ -42,7 +42,6 @@ public class BluetoothDataService extends Service {
     }
     public void setSocket(BluetoothDevice device)
     {
-        Log.i("소켓", "*************************소켓");
         try
         {
             UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -53,7 +52,6 @@ public class BluetoothDataService extends Service {
         }
         catch (IOException e)
         {
-            Log.i("아이옿","ㅇㅇㅇㅇ");
             e.printStackTrace();
         }
         receiveData();
@@ -67,7 +65,6 @@ public class BluetoothDataService extends Service {
                 public void run() {
                     while( ! Thread.currentThread().isInterrupted() )
                     {
-                        Log.i("입력입력 " ,inputStream +"     ////    " );
                         try
                         {
                             if(inputStream != null) {
@@ -104,6 +101,15 @@ public class BluetoothDataService extends Service {
         workerThread.start();
     }
 
+    public void sendData(byte[] data)
+    {
+        try {
+            outputStream.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void disConnect()
     {
         try
@@ -133,5 +139,4 @@ public class BluetoothDataService extends Service {
         workerThread.interrupt();
         disConnect();
     }
-
 }

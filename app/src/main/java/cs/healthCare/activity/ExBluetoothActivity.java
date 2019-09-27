@@ -124,7 +124,6 @@ public class ExBluetoothActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while(! Thread.currentThread().isInterrupted()) {
-
                     try {
                         // 데이터를 수신했는지 확인합니다.
                         int byteAvailable = inputStream.available();

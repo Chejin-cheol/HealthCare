@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 import cs.healthCare.R;
@@ -19,11 +21,11 @@ import cs.healthCare.bluetooth.BluetoothClient;
 import cs.healthCare.bluetooth.BluetoothManager;
 import cs.healthCare.receiver.BluetoothSearchReciever;
 
+import static android.content.pm.PackageManager.FEATURE_MANAGED_USERS;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 public class TrainingActivity extends Activity  implements BluetoothClient {
     BluetoothManager manager;
-    BluetoothSearchReciever searchReceiver ;
 
     TextView timer ;
 
@@ -36,7 +38,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
 
         manager = new BluetoothManager(this);
         setViewSize();
-        setReceivers();
 
         //권한
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -56,17 +57,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
         timer = findViewById(R.id.timer);
         timer.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
     }
-    private void setReceivers()
-    {
-        searchReceiver = new BluetoothSearchReciever(manager);
-        IntentFilter searchFilter = new IntentFilter();
-        searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED); ////BluetoothAdapter.ACTION_DISCOVERY_STARTED : 블루투스 검색 시작
-        searchFilter.addAction(BluetoothDevice.ACTION_FOUND); //BluetoothDevice.ACTION_FOUND : 블루투스 디바이스 찾음
-        searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); //BluetoothAdapter.ACTION_DISCOVERY_FINISHED : 블루투스 검색 종료
-        searchFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); //BluetoothDevice.ACTION_BOND_STATE_CHANGED : 원격장치의 연결 상태가 변경 되었음을 알려준다.
-        searchFilter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-        registerReceiver(searchReceiver, searchFilter);
-    }
 
 
     @Override
@@ -78,8 +68,17 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(searchReceiver);
         manager.destroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ( requestCode == BluetoothManager.BLUETOOTH_REQUEST_CODE  && resultCode == Activity.RESULT_OK)
+        {
+             manager.getPairedDevice();
+        }
     }
 
     @Override
@@ -96,7 +95,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
             }
         }
     }
-
 
     @Override
     public void receiveData(int data) {
