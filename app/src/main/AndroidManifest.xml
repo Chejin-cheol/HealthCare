@@ -55,6 +55,7 @@
         <activity android:name=".activity.TrainingActivity"/>
 
         <service android:name=".service.CharacterService" />
+        <service android:name=".service.BluetoothDataService" />
 
         <receiver android:name=".receiver.BluetoothSearchReciever" />
     </application>

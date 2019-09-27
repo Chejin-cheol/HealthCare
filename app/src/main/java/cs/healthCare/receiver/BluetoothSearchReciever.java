@@ -38,7 +38,7 @@ public class BluetoothSearchReciever extends BroadcastReceiver {
 
                 if(device.getName() != null)
                 {
-                    if(device.getName().equals("Moon"))
+                    if(device.getName().equals(_bluetoothManager.DEVICE_NAME))
                     {
                         _bluetoothManager.bind(device);
                     }

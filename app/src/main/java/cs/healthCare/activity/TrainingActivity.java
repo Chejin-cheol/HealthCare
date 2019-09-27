@@ -15,12 +15,13 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 import cs.healthCare.R;
+import cs.healthCare.bluetooth.BluetoothClient;
 import cs.healthCare.bluetooth.BluetoothManager;
 import cs.healthCare.receiver.BluetoothSearchReciever;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-public class TrainingActivity extends Activity {
+public class TrainingActivity extends Activity  implements BluetoothClient {
     BluetoothManager manager;
     BluetoothSearchReciever searchReceiver ;
 
@@ -78,7 +79,7 @@ public class TrainingActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(searchReceiver);
-        manager.disConnect();
+        manager.destroy();
     }
 
     @Override
@@ -95,5 +96,15 @@ public class TrainingActivity extends Activity {
             }
         }
     }
-    
+
+
+    @Override
+    public void receiveData(int data) {
+
+    }
+
+    @Override
+    public void sendData() {
+
+    }
 }

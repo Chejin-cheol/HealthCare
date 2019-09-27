@@ -5,8 +5,11 @@ import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 
 import java.io.IOException;
@@ -20,16 +23,38 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import cs.healthCare.service.BluetoothDataService;
+import cs.healthCare.service.CharacterService;
+
 public class BluetoothManager {
     public static int BLUETOOTH_REQUEST_CODE = 100;
+    public static String DEVICE_NAME = "Moon";
+
     private Context context;
+    private Intent serviceIntent;
 
     private BluetoothAdapter mBluetoothAdapter ;
     private BluetoothDevice device;
     private BluetoothSocket socket;
 
-    OutputStream outputStream;
-    InputStream inputStream;
+    BluetoothDataService _service;
+
+    ServiceConnection _connection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName name,
+                                       IBinder service) {
+            // 서비스와 연결되었을 때 호출되는 메서드
+            BluetoothDataService.BluetoothBinder binder =  (BluetoothDataService.BluetoothBinder) service;
+            _service = binder.getService();
+            if(device != null)
+            {
+                Log.i("소캣" ,"ㅋㅋㅋㅋ");
+                _service.setClient((BluetoothClient) context);
+                _service.setSocket(device);
+            }
+        }
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
 
     public BluetoothManager(Context context)
     {
@@ -41,14 +66,16 @@ public class BluetoothManager {
             ((Activity)context).startActivityForResult(intent, BLUETOOTH_REQUEST_CODE);
         }
 
-        // 페어링 디바이스 연결
+        // 이미 페어링된 디바이스 연결
         Set<BluetoothDevice> bounded = mBluetoothAdapter.getBondedDevices();
         for(BluetoothDevice device : bounded)
         {
-            if(device.getName().equals("Moon"))
+            if(device.getName().equals(DEVICE_NAME))
             {
+                // bind
+                Log.i(device.getName() ,"페어링");
                 this.device = device;
-                setSocket();
+                setService();
             }
         }
     }
@@ -66,52 +93,33 @@ public class BluetoothManager {
     {
         this.device = device;
         this.device.createBond();
-
     }
 
     public void pairing()
     {
         if(device != null) {
             try {
-
                 byte[] pin = "1234".getBytes();
                 device.setPin(pin);
                 device.setPairingConfirmation(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        setSocket();
-    }
-
-    private void setSocket()
-    {
-        try
-        {
-            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-            socket = device.createRfcommSocketToServiceRecord(uuid);
-            socket.connect();
-            inputStream =  socket.getInputStream();
-            outputStream = socket.getOutputStream();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            setService();
         }
     }
 
-    public void disConnect()
+    private void setService()
     {
-        try
-        {
-            inputStream.close();
-            outputStream.close();
-            socket.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        serviceIntent = new Intent( context , BluetoothDataService.class);
+        context.bindService(serviceIntent , _connection , Context.BIND_AUTO_CREATE);
+        context.startService(serviceIntent);
+    }
+
+    public void destroy()
+    {
+        context.unbindService(_connection);
+        context.stopService(serviceIntent);
     }
 
 }
