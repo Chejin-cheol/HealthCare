@@ -8,13 +8,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cs.healthCare.R;
 import cs.healthCare.bluetooth.BluetoothClient;
@@ -24,10 +31,17 @@ import cs.healthCare.receiver.BluetoothSearchReciever;
 import static android.content.pm.PackageManager.FEATURE_MANAGED_USERS;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-public class TrainingActivity extends Activity  implements BluetoothClient {
-    BluetoothManager manager;
+public class TrainingActivity extends Activity  implements BluetoothClient  {
+    int timeCount = 0;
+    int TIME_MAX = 10;
 
-    TextView timer ;
+    Handler timeHandler ;
+    TimerTask timerTask;
+    Timer timer;
+
+    BluetoothManager manager;
+    TextView counter ;
+    SeekBar timeBar;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100 ;
 
@@ -35,9 +49,11 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.training_activity);
+        setView();
+        setViewSize();
+        setListeners();
 
         manager = new BluetoothManager(this);
-        setViewSize();
 
         //권한
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -50,14 +66,48 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
         }
     }
 
+    private void setView()
+    {
+        counter = findViewById(R.id.counter);
+        timeBar = findViewById(R.id.timebar);
+        timeBar.setMax(TIME_MAX);
+    }
     private  void setViewSize()
     {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int timeTextPx = (int) (metrics.heightPixels * 0.3);
-        timer = findViewById(R.id.timer);
-        timer.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
+        counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
+    }
+    private void setListeners()
+    {
+        timeHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                timeBar.setProgress(msg.what);
+            }
+        };
+
     }
 
+    private void startTimeTask()
+    {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(timeCount == TIME_MAX)
+                {
+                    finish();
+                    return;
+                }
+                ++timeCount;
+                timeHandler.sendEmptyMessage(timeCount);
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(timerTask , 0 ,1000);
+    }
 
     @Override
     protected void onStart() {
@@ -73,11 +123,12 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
         if ( requestCode == BluetoothManager.BLUETOOTH_REQUEST_CODE  && resultCode == Activity.RESULT_OK)
         {
              manager.getPairedDevice();
+             manager.findBluetoothDevices();
         }
     }
 
@@ -88,7 +139,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 } else {
                 }
                 return;
@@ -98,11 +148,14 @@ public class TrainingActivity extends Activity  implements BluetoothClient {
 
     @Override
     public void receiveData(int data) {
-
     }
 
     @Override
     public void sendData() {
+    }
 
+    @Override
+    public void Binded() {
+        startTimeTask();
     }
 }

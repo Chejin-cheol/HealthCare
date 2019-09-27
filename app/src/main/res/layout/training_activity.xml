@@ -17,7 +17,7 @@
         android:layout_weight="6"
         android:gravity="center">
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/timer"
+            android:id="@+id/counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -32,6 +32,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="4"
-        />
+        >
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/timebar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
 </LinearLayout>

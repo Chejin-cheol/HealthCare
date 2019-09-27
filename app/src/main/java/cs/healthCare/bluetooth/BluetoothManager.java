@@ -99,7 +99,6 @@ public class BluetoothManager {
                 setService();
             }
         }
-
         if(device == null)
         {
             setReceivers();
@@ -146,6 +145,7 @@ public class BluetoothManager {
     {
             _service.sendData(data.getBytes());
     }
+
     public void destroy()
     {
         if(searchReceiver != null)

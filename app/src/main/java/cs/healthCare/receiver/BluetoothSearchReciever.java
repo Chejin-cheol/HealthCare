@@ -35,16 +35,15 @@ public class BluetoothSearchReciever extends BroadcastReceiver {
             case BluetoothDevice.ACTION_FOUND:
                 //검색한 블루투스 디바이스의 객체를 구한다.
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
                 if(device.getName() != null)
                 {
                     if(device.getName().equals(_bluetoothManager.DEVICE_NAME))
                     {
+                        Log.i("페어링",device.getName());
                         _bluetoothManager.bind(device);
                     }
                 }
                 break;
-
 
             //블루투스 디바이스 검색 종료
             case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:

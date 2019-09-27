@@ -54,6 +54,7 @@ public class BluetoothDataService extends Service {
         {
             e.printStackTrace();
         }
+        client.Binded();        // 액티비티에 소캣세팅 알림
         receiveData();
     }
 
