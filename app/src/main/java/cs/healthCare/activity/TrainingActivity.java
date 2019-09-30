@@ -20,12 +20,29 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cs.healthCare.R;
 import cs.healthCare.bluetooth.BluetoothClient;
 import cs.healthCare.bluetooth.BluetoothManager;
+import cs.healthCare.network.Resource;
 import cs.healthCare.receiver.BluetoothSearchReciever;
 
 import static android.content.pm.PackageManager.FEATURE_MANAGED_USERS;
@@ -35,9 +52,15 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     int timeCount = 0;
     int TIME_MAX = 60;
 
-    Handler timeHandler , counterHander ;
+    private JSONObject jsonObject;
+    private String data = "";
+    private static List<String> dataSet  = new ArrayList<String>();
+
+    Handler timeHandler , dataHander ;
     TimerTask timerTask;
     Timer timer;
+
+    private RequestQueue queue;
 
     BluetoothManager manager;
     TextView counter ;
@@ -54,6 +77,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         setListeners();
 
         manager = new BluetoothManager(this);
+        jsonObject = new JSONObject();
 
         //권한
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -88,10 +112,10 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             }
         };
 
-        counterHander = new Handler(){
+        dataHander = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                counter.setText(msg.obj.toString());
+                data = msg.obj.toString();
             }
         };
     }
@@ -101,16 +125,38 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if(timeCount == TIME_MAX)
-                {
+                if(timeCount == TIME_MAX) {
+
+                    try
+                    {
+                        JSONArray ja = new JSONArray();
+                        for (int i = 0; i < dataSet.size(); i++) {
+                            JSONObject jo = new JSONObject();
+                            jo.put("value", dataSet.get(i));
+                            ja.put(jo);
+                        }
+                        jsonObject.put("id",MainActivity.mid);
+                        jsonObject.put("data", ja);
+                        jsonObject.put("type",1);
+                        Log.i("종료","종료 " +data.toString());
+                        dataSet.clear();
+                        cancel();
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     finish();
                     return;
+                }
+                if(timeCount % 2 == 0)
+                {
+                    dataSet.add(data);
                 }
                 ++timeCount;
                 timeHandler.sendEmptyMessage(timeCount);
             }
         };
-
         timer = new Timer();
         timer.schedule(timerTask , 0 ,1000);
     }
@@ -123,6 +169,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
     @Override
     protected void onDestroy() {
+        sendData(jsonObject.toString());
         super.onDestroy();
         manager.destroy();
     }
@@ -158,8 +205,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     public void receiveData(String data) {
         Message  msg = new Message();
         msg.obj = data;
-        Log.i(" 데이터 "," ==> " + data);
-        counterHander.sendMessage(msg);
+        dataHander.sendMessage(msg);
     }
 
     @Override
@@ -169,5 +215,43 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     @Override
     public void Binded() {
         startTimeTask();
+    }
+
+
+
+
+
+    private void sendData(String query){
+        final String jsonString = query;
+        queue = Volley.newRequestQueue(this);
+        String url = Resource.getUrl("users/Pushpull");
+
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if (response.equals("Fail"))
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("data", jsonString);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
     }
 }
