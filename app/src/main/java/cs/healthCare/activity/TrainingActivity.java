@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -59,12 +60,14 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     Handler timeHandler , dataHander ;
     TimerTask timerTask;
     Timer timer;
+    Button result,stop;
 
     private RequestQueue queue;
 
     BluetoothManager manager;
-    TextView counter ;
-    SeekBar timeBar;
+    TextView timeText ;
+    TextView Ex;
+//    SeekBar timeBar;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100 ;
 
@@ -92,15 +95,23 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
     private void setView()
     {
-        counter = findViewById(R.id.counter);
-        timeBar = findViewById(R.id.timebar);
-        timeBar.setMax(TIME_MAX);
+        timeText = findViewById(R.id.time);
+        Ex = findViewById(R.id.Ex);
+        result = findViewById(R.id.result);
+        stop= findViewById(R.id.stop);
     }
     private  void setViewSize()
     {
+
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int timeTextPx = (int) (metrics.heightPixels * 0.3);
-        counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
+        int timeHeight =( metrics.heightPixels / 15 ) * 4;
+        int timeTextPx = (int) (timeHeight* 0.2);
+        int bt1=(int)(timeHeight*0.3);
+        int bt2=(int)(timeHeight*0.3);
+        result.setHeight(bt1);
+        stop.setHeight(bt2);
+        timeText.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
+        Log.i("ㄴㄴㄴㄴㄴㄴ",timeHeight+"");
     }
     private void setListeners()
     {
@@ -108,7 +119,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                timeBar.setProgress(msg.what);
+                timeText.setText(msg.what+"");
             }
         };
 
@@ -198,6 +209,8 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             }
         }
     }
+
+
 
 
     // bluetooth client

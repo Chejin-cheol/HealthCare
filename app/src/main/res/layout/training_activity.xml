@@ -9,34 +9,85 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="5"
-        />
+        >
+
+        <TextView
+            android:id="@+id/Ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="팔굽혀펴기"
+            android:gravity="center"
+            android:textColor="#000000" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="6"
         android:gravity="center">
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:text="0"
-            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="강도 :" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="개수 :" />
+
+            <TextView
+                android:id="@+id/sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="개수당 평균 경과시간 :" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/time_set"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="4"
-        >
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/timebar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="결과" />
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="중지" />
     </LinearLayout>
 
 </LinearLayout>
