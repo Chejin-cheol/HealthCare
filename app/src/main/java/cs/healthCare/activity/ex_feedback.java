@@ -1,10 +1,12 @@
-package cs.healthCare;
+package cs.healthCare.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import java.util.Random;
+
+import cs.healthCare.R;
 
 public class ex_feedback extends AppCompatActivity {
     String a1 = "수행 시간, 근력 수치, 수행 횟수 모두 이전 측정에 비해 수치가 낮아졌습니다. 올바른 자세와 체력 증진이 필요해보입니다.";

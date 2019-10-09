@@ -2,10 +2,7 @@ package cs.healthCare.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,12 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -52,9 +45,7 @@ import cs.healthCare.R;
 import cs.healthCare.bluetooth.BluetoothClient;
 import cs.healthCare.bluetooth.BluetoothManager;
 import cs.healthCare.network.Resource;
-import cs.healthCare.receiver.BluetoothSearchReciever;
 
-import static android.content.pm.PackageManager.FEATURE_MANAGED_USERS;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 public class TrainingActivity extends Activity  implements BluetoothClient  {
@@ -199,6 +190,9 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Intent intent = new Intent(TrainingActivity.this , ex_feedback.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
                     return;
                 }
