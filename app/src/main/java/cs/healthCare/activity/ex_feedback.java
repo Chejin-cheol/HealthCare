@@ -127,4 +127,10 @@ public class ex_feedback extends AppCompatActivity {
 
         chart.setData(lineData);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TrainingActivity.live.clear();
+    }
 }

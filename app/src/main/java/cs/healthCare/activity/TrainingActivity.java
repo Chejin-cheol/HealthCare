@@ -265,7 +265,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                         e.printStackTrace();
                     }
                     Intent intent = new Intent(TrainingActivity.this , ex_feedback.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
                     return;
