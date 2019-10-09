@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,7 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,10 +56,15 @@ import static android.content.pm.PackageManager.PERMISSION_DENIED;
 public class TrainingActivity extends Activity  implements BluetoothClient  {
     int timeCount = 0;
     int TIME_MAX = 60;
+    private long _time = 0;
+    private int _count = 0;
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat dateFormat;
 
     private JSONObject jsonObject;
     private String data = "";
     private static List<String> dataSet  = new ArrayList<String>();
+
 
     Handler timeHandler , dataHander ;
     TimerTask timerTask;
@@ -66,8 +75,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
     BluetoothManager manager;
     TextView timeText ;
-    TextView Ex;
-//    SeekBar timeBar;
+    TextView Ex , strength , number, sec;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100 ;
 
@@ -81,6 +89,11 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         manager = new BluetoothManager(this);
         jsonObject = new JSONObject();
+
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("ss");
+        _time = System.currentTimeMillis();
+        _count = 0;
 
         //권한
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -99,6 +112,9 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         Ex = findViewById(R.id.Ex);
         result = findViewById(R.id.result);
         stop= findViewById(R.id.stop);
+        strength = findViewById(R.id.Strength);
+        number = findViewById(R.id.number);
+        sec = findViewById(R.id.sec);
     }
     private  void setViewSize()
     {
@@ -111,7 +127,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         result.setHeight(bt1);
         stop.setHeight(bt2);
         timeText.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
-        Log.i("ㄴㄴㄴㄴㄴㄴ",timeHeight+"");
     }
     private void setListeners()
     {
@@ -127,8 +142,23 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             @Override
             public void handleMessage(Message msg) {
                 data = msg.obj.toString();
+                String[] datas =  data.split("-");
+                number.setText(datas[2]);
+                strength.setText(datas[1]);
+//                Toast.makeText(getApplicationContext(),"숫자" + .contains("\r"),Toast.LENGTH_SHORT).show();
+
+                if(_count != Integer.parseInt(datas[2]) )
+                {
+                    long current = System.currentTimeMillis();
+                    double secTime =( current - _time )/1000;
+                    _time = current;
+                    datas[2] = datas[2].replace("\r","");
+                    _count = Integer.parseInt(datas[2] );
+                    sec.setText( secTime +"" );
+                }
             }
         };
+
     }
 
     private void startTimeTask()
@@ -136,8 +166,8 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         timerTask = new TimerTask() {
             @Override
             public void run() {
+                Log.i("디디" , data +"<==");
                 if(timeCount == TIME_MAX) {
-
                     try
                     {
                         JSONArray ja = new JSONArray();
@@ -156,13 +186,13 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     finish();
                     return;
                 }
                 if(timeCount % 2 == 0)
                 {
                     dataSet.add(data);
+
                 }
                 ++timeCount;
                 timeHandler.sendEmptyMessage(timeCount);
@@ -191,8 +221,8 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         if ( requestCode == BluetoothManager.BLUETOOTH_REQUEST_CODE  && resultCode == Activity.RESULT_OK)
         {
-             manager.getPairedDevice();
-             manager.findBluetoothDevices();
+            manager.getPairedDevice();
+            manager.findBluetoothDevices();
         }
     }
 
@@ -209,9 +239,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             }
         }
     }
-
-
-
 
     // bluetooth client
     @Override
