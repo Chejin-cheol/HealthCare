@@ -86,6 +86,7 @@ public class ExDescriptionActivity extends Activity {
 
         // Request를 요청 할 URL
         String url = Resource.getUrl("extext?id="+index);
+        Log.i(index+"d","ddddddddddd");
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

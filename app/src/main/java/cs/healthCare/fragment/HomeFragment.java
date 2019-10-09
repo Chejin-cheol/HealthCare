@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,8 +28,10 @@ import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.ArrayList;
+import java.util.concurrent.Delayed;
 
 import cs.healthCare.R;
+import cs.healthCare.activity.ExDescriptionActivity;
 import cs.healthCare.activity.GrowUpExerciseActivity;
 import cs.healthCare.service.CharacterService;
 
@@ -40,6 +43,7 @@ public class HomeFragment extends Fragment {
         ImageView character;
         ImageView homePullUpBar, homePushUp, homeBelt;
         ViewGroup button_set;
+
 
 
 
@@ -95,23 +99,27 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            homePullUpBar.setOnClickListener(new View.OnClickListener(){
-                int i = 0;
-
-
+            homePushUp.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View view) {
-                    i = 1 -i;
-                    if(i == 0){
-                        if ( i == 0 ){
-                            character.setImageResource(R.drawable.home_pull_up_bar_click);
-                        }
-                        else{
-                            character.setImageResource(R.drawable.home_pull_up_bar);
-                        }
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            homePushUp.setImageResource(R.drawable.home_pushup_click);
+                            Log.i("클릭했을때","ㅇㅇ");
+//                            Intent intent = new Intent(view.getContext() , ExDescriptionActivity.class);
+//                            intent.putExtra("list_id", (int)view.getTag());
+//                            startActivity(intent);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            homePushUp.setImageResource(R.drawable.home_pushup);
+                            Log.i("클릭안했을때","ㅇㅇ");
+                            break;
+                        default:
+                            break;
                     }
-                }//void onClick
-            });//
+                    return true;
+                }
+            });
 
             _intent = new Intent(_context , CharacterService.class);
             _context.bindService(_intent , _connection ,Context.BIND_AUTO_CREATE);
