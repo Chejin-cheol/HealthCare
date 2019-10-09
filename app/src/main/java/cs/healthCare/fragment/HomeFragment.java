@@ -74,6 +74,13 @@ public class HomeFragment extends Fragment {
             _context = container.getContext();
             character = (ImageView) root.findViewById(R.id.character);
             button_set = (ViewGroup)root.findViewById(R.id.button_set);
+            character = root.findViewById(R.id.character);
+
+
+            homePullUpBar = (ImageView) root.findViewById(R.id.home_pull_up_bar);
+            homeBelt = (ImageView) root.findViewById(R.id.home_belt);
+            homePushUp = (ImageView) root.findViewById(R.id.home_pushup);
+
             character.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,10 +95,31 @@ public class HomeFragment extends Fragment {
                 }
             });
 
+            homePullUpBar.setOnClickListener(new View.OnClickListener(){
+                int i = 0;
+
+
+                @Override
+                public void onClick(View view) {
+                    i = 1 -i;
+                    if(i == 0){
+                        if ( i == 0 ){
+                            character.setImageResource(R.drawable.home_pull_up_bar_click);
+                        }
+                        else{
+                            character.setImageResource(R.drawable.home_pull_up_bar);
+                        }
+                    }
+                }//void onClick
+            });//
+
             _intent = new Intent(_context , CharacterService.class);
             _context.bindService(_intent , _connection ,Context.BIND_AUTO_CREATE);
             _context.startService(_intent);
             setLayout();
+
+
+
         }
         return root;
     }
@@ -100,29 +128,6 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        homePullUpBar = (ImageView) root.findViewById(R.id.home_pull_up_bar);
-        homeBelt = (ImageView) root.findViewById(R.id.home_belt);
-        homePushUp = (ImageView) root.findViewById(R.id.home_pushup);
-
-        homePullUpBar.setOnClickListener(new View.OnClickListener(){
-            int i = 0;
-            ImageView imageview = null;
-
-            @Override
-            public void onClick(View view) {
-                i = 1 -i;
-
-                if(i == 0){
-                    if ( i == 0 ){
-                        imageview.setImageResource(R.drawable.home_pull_up_bar_click);
-                    }
-                    else{
-                        imageview.setImageResource(R.drawable.home_pull_up_bar);
-                    }
-                }
-            }//void onClick
-        });//
     }
 
 //    @Override
@@ -155,7 +160,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(buttonSize , buttonSize);
             params.setMargins(buttonMargin , buttonMargin ,buttonMargin ,buttonMargin);
             v.setLayoutParams(params);
-            v.setOnClickListener((View.OnClickListener) this);
+//            v.setOnClickListener(this);
         }
     }
 }
