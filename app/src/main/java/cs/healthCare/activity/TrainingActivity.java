@@ -145,15 +145,17 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                 String[] datas =  data.split("-");
                 number.setText(datas[2]);
                 strength.setText(datas[1]);
-                Toast.makeText(getApplicationContext(),"숫자" + datas[2].contains(""),Toast.LENGTH_SHORT).show();
-//                if(_count != Integer.parseInt(datas[2]) )
-//                {
-//                    long current = System.currentTimeMillis();
-//                    double secTime =( current - _time )/1000;
-//                    _time = current;
-//                    _count = Integer.parseInt(datas[2]);
-//                    sec.setText( secTime +"" );
-//                }
+//                Toast.makeText(getApplicationContext(),"숫자" + .contains("\r"),Toast.LENGTH_SHORT).show();
+
+                if(_count != Integer.parseInt(datas[2]) )
+                {
+                    long current = System.currentTimeMillis();
+                    double secTime =( current - _time )/1000;
+                    _time = current;
+                    datas[2] = datas[2].replace("\r","");
+                    _count = Integer.parseInt(datas[2] );
+                    sec.setText( secTime +"" );
+                }
             }
         };
 
