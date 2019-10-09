@@ -4,17 +4,35 @@ import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import cs.healthCare.activity.LoginActivity;
+import cs.healthCare.activity.MainActivity;
+import cs.healthCare.activity.SplashActivity;
 import cs.healthCare.bluetooth.BluetoothClient;
+import cs.healthCare.network.Resource;
 
 public class BluetoothDataService extends Service {
     private BluetoothBinder bluetoothBinder;
@@ -141,4 +159,7 @@ public class BluetoothDataService extends Service {
         workerThread.interrupt();
         disConnect();
     }
+
+
+
 }

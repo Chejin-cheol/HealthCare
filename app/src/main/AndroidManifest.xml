@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cs.healthCare">
@@ -13,7 +14,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,41 +25,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".ex_feedback"></activity>
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/AppNoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.JoinActivity" />
-
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppNoTitle"></activity>
-
-        <activity android:name=".activity.UserInfoUpdateActivity"/>
-
+            android:theme="@style/AppNoTitle" />
+        <activity android:name=".activity.UserInfoUpdateActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppNoTitle" />
         <activity
             android:name=".activity.GrowUpExerciseActivity"
-            android:theme="@style/AppNoTitle"
-            />
+            android:theme="@style/AppNoTitle" />
         <activity android:name=".activity.ExListActivity" />
         <activity android:name=".activity.ExDescriptionActivity" />
-        <activity android:name=".activity.ExBluetoothTest"/>
-        <activity android:name=".activity.TrainingActivity"/>
+        <activity android:name=".activity.ExBluetoothTest" />
+        <activity android:name=".activity.TrainingActivity" />
 
         <service android:name=".service.CharacterService" />
         <service android:name=".service.BluetoothDataService" />
 
         <receiver android:name=".receiver.BluetoothSearchReciever" />
     </application>
+
 </manifest>
-
-

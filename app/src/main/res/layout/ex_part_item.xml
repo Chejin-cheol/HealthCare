@@ -32,8 +32,9 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text="content"
+            android:textColor="@android:color/darker_gray"
             android:textSize="13sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:visibility="invisible" />
     </LinearLayout>
 
 </LinearLayout>

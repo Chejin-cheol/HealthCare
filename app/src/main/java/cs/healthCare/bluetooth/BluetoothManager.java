@@ -94,7 +94,6 @@ public class BluetoothManager {
             if(device.getName().equals(DEVICE_NAME))
             {
                 // bind
-                Log.i(device.getName() ,"페어링");
                 this.device = device;
                 setService();
             }
