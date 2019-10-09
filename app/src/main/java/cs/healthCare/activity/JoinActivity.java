@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ public class JoinActivity extends Activity {
     private Boolean Bcheck;
     private int icheck,pcheck=0;
     private  Float bmi;
+    String exAP ,exHP="0";
 
     public final StringBuffer LockPassword(String password) {
         try {
@@ -92,6 +95,17 @@ public class JoinActivity extends Activity {
         final EditText userNickname = (EditText)findViewById(R.id.ed_user_nickname);
         final Spinner spinner_sex = (Spinner)findViewById(R.id.spinnerSex); //스피너(comboBox)객체 생성
         Button btBmiCalc=(Button)findViewById(R.id.btn_BmiCalc);
+        final TextView userExAbility = (TextView)findViewById(R.id.tv_user_ex_ability);
+        final TextView userHp = (TextView) findViewById(R.id.tv_user_hp);
+        final RadioGroup exAbility = (RadioGroup)findViewById(R.id.rdg_exability);
+        final RadioButton exAbilityA = (RadioButton)findViewById(R.id.rb_exability_a);
+        final RadioButton exAbilityB = (RadioButton)findViewById(R.id.rb_exability_b);
+        final RadioButton exAbilityC = (RadioButton)findViewById(R.id.rb_exability_c);
+        final RadioGroup userhp = (RadioGroup)findViewById(R.id.rdg_userhp);
+        final RadioButton hpA = (RadioButton)findViewById(R.id.rb_userhp_a);
+        final RadioButton hpB = (RadioButton)findViewById(R.id.rb_userhp_b);
+        final RadioButton hpC = (RadioButton)findViewById(R.id.rb_userhp_c);
+
 
         queue = Volley.newRequestQueue(this);
         String url = Resource.getUrl("users/Regist");
@@ -159,6 +173,11 @@ public class JoinActivity extends Activity {
                     params.put("user_weight", userWeight.getText().toString());
                     params.put("user_bmi", bmi.toString());
                     params.put("user_nickname", userNickname.getText().toString());
+                    params.put("user_ex_ability",exAP);
+                    params.put("user_hp",exHP);
+                    Log.i("url",params+"");
+                    //params.put("user_ex_ability", )
+
                 }
                 return params;
             }
@@ -181,6 +200,9 @@ public class JoinActivity extends Activity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { } //end of onNothingSelected
         });//end of setOnItemSelectedListner
+
+
+        //라디오그룹 선택
 
 
 
@@ -220,6 +242,27 @@ public class JoinActivity extends Activity {
         btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(exAbilityA.isChecked()){
+                    exAP = "1";
+                }
+                if(exAbilityB.isChecked()){
+                    exAP = "2";
+                }
+                if(exAbilityC.isChecked()){
+                    exAP = "3";
+                }
+                if(hpA.isChecked()){
+                    exHP = "1";
+                }
+                if(hpB.isChecked()){
+                    exHP = "2";
+                }
+                if(hpC.isChecked()){
+                    exHP = "3";
+                }
+
+
                 if(userId.getText().toString().equals("")||firstPassWord.getText().toString().equals("")||secondPassWord.getText().toString().equals("")||userAge.getText().toString().equals("")||userBMI.getText().toString().equals("")||userHeight.getText().toString().equals("")||userId.getText().toString().equals("")||userNickname.getText().toString().equals("")||userWeight.getText().toString().equals(""))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(JoinActivity.this);
