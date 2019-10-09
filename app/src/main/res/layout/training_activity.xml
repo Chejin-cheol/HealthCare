@@ -29,8 +29,9 @@
                 android:id="@+id/health"
                 android:layout_width="wrap_content"
                 android:layout_height="0dip"
-                android:layout_weight="8"
+                android:layout_weight="9"
                 android:gravity="center"
+                android:scaleType="fitCenter"
                 android:text="팔굽혀펴기"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -112,19 +113,6 @@
                 android:text="0"
                 android:textAlignment="center" />
 
-            <Button
-                android:id="@+id/result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="결과" />
-
-            <Button
-                android:id="@+id/stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="중지" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

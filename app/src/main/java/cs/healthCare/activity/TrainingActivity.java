@@ -69,11 +69,9 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     private String data = "";
     private static List<String> dataSet  = new ArrayList<String>();
 
-
     Handler timeHandler , dataHander ;
     TimerTask timerTask;
     Timer timer;
-    Button result,stop;
 
     private RequestQueue queue;
 
@@ -97,7 +95,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("ss");
-        _time = System.currentTimeMillis();
         _count = 0;
 
         //권한
@@ -123,8 +120,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         timeText = findViewById(R.id.time);
         Ex = findViewById(R.id.Ex);
-        result = findViewById(R.id.result);
-        stop= findViewById(R.id.stop);
         strength = findViewById(R.id.Strength);
         number = findViewById(R.id.number);
         sec = findViewById(R.id.sec);
@@ -135,11 +130,9 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int timeHeight =( metrics.heightPixels / 15 ) * 4;
-        int timeTextPx = (int) (timeHeight* 0.2);
+        int timeTextPx = (int) (timeHeight* 0.7);
         int bt1=(int)(timeHeight*0.3);
         int bt2=(int)(timeHeight*0.3);
-        result.setHeight(bt1);
-        stop.setHeight(bt2);
         timeText.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeTextPx);
     }
     private void setListeners()
@@ -155,6 +148,12 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         dataHander = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+
+                if(dataSet.size() == 0)
+                {
+                    _time = System.currentTimeMillis();
+                }
+
                 data = msg.obj.toString();
                 String[] datas =  data.split("-");
                 number.setText(datas[2]);
@@ -169,6 +168,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     datas[2] = datas[2].replace("\r","");
                     _count = Integer.parseInt(datas[2] );
                     sec.setText( secTime +"" );
+                    dataSet.add(data);
                 }
             }
         };
@@ -202,11 +202,11 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     finish();
                     return;
                 }
-                if(timeCount % 2 == 0)
-                {
-                    dataSet.add(data);
-
-                }
+//                if(timeCount % 2 == 0)
+//                {
+//                    dataSet.add(data);
+//
+//                }
                 ++timeCount;
                 timeHandler.sendEmptyMessage(timeCount);
             }
