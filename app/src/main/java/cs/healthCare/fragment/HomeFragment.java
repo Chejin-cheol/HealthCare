@@ -106,13 +106,13 @@ public class HomeFragment extends Fragment {
                         case MotionEvent.ACTION_DOWN:
                             homePushUp.setImageResource(R.drawable.home_pushup_click);
                             Log.i("클릭했을때","ㅇㅇ");
-//                            Intent intent = new Intent(view.getContext() , ExDescriptionActivity.class);
-//                            intent.putExtra("list_id", (int)view.getTag());
-//                            startActivity(intent);
                             break;
                         case MotionEvent.ACTION_UP:
                             homePushUp.setImageResource(R.drawable.home_pushup);
                             Log.i("클릭안했을때","ㅇㅇ");
+                            Intent intent = new Intent(root.getContext() , ExDescriptionActivity.class);
+                            intent.putExtra("list_id",2007);
+                            startActivity(intent);
                             break;
                         default:
                             break;
