@@ -17,6 +17,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +26,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +53,7 @@ import java.util.TimerTask;
 import cs.healthCare.R;
 import cs.healthCare.bluetooth.BluetoothClient;
 import cs.healthCare.bluetooth.BluetoothManager;
+import cs.healthCare.model.LiveData;
 import cs.healthCare.network.Resource;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
@@ -59,6 +69,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     private JSONObject jsonObject;
     private String data = "";
     private static List<String> dataSet  = new ArrayList<String>();
+    public static List<LiveData> live = new ArrayList<LiveData>();
 
     Handler timeHandler , dataHander ;
     TimerTask timerTask;
@@ -70,6 +81,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     TextView timeText ;
     TextView Ex , strength , number, sec;
     ImageView health;
+    LineChart chart;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100 ;
 
@@ -115,7 +127,63 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         number = findViewById(R.id.number);
         sec = findViewById(R.id.sec);
 
+        // set chart
+        chart = findViewById(R.id.line_chart);
+
     }
+
+    private void setChart() {
+        chart.invalidate(); //차트 초기화 작업
+        chart.clear();
+
+        ArrayList<Entry> values = new ArrayList<Entry>();
+
+        for (LiveData record : live) { //values에 데이터를 담는 과정
+            float dateTime = (float) record.getTime();
+            float strength = record.getStength();
+            values.add(new Entry(dateTime, strength));
+        }
+
+        int size = 0;
+        if( timeCount  == 0 || timeCount < 10  )
+        {
+                size = 10;
+        }
+        else
+        {
+            size = (timeCount / 10 ) * 10;
+        }
+
+
+        /*몸무게*/
+        LineDataSet lineDataSet = new LineDataSet(values, "강도"); //LineDataSet 선언
+        lineDataSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.purple)); //LineChart에서 Line Color 설정
+        lineDataSet.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.purple)); // LineChart에서 Line Circle Color 설정
+        lineDataSet.setCircleHoleColor(ContextCompat.getColor(getApplicationContext(), R.color.purple)); // LineChart에서 Line Hole Circle Color 설정
+
+        LineData lineData = new LineData(); //LineDataSet을 담는 그릇 여러개의 라인 데이터가 들어갈 수 있습니다.
+        lineData.addDataSet(lineDataSet);
+        lineData.setValueTextSize(9);
+
+
+        XAxis xAxis = chart.getXAxis(); // x 축 설정
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x 축 표시에 대한 위치 설정
+        xAxis.setLabelCount(size, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
+
+
+        YAxis yAxisRight = chart.getAxisRight(); //Y축의 오른쪽면 설정
+        yAxisRight.setDrawLabels(false);
+        yAxisRight.setDrawAxisLine(false);
+        yAxisRight.setDrawGridLines(false);
+        //y축의 활성화를 제거함
+
+        chart.setVisibleXRangeMinimum(size); //라인차트에서 최대로 보여질 X축의 데이터 설정
+        chart.setDescription(null); //차트에서 Description 설정 저는 따로 안했습니다.
+        Legend legend = chart.getLegend(); //레전드 설정 (차트 밑에 색과 라벨을 나타내는 설정)
+
+        chart.setData(lineData);
+    }
+
     private  void setViewSize()
     {
 
@@ -146,6 +214,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                 }
 
                 data = msg.obj.toString();
+                Toast.makeText(getApplicationContext(),"xxxx "+data,Toast.LENGTH_SHORT).show();
                 String[] datas =  data.split("-");
                 number.setText(datas[2]);
                 strength.setText(datas[1]);
@@ -160,6 +229,12 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     _count = Integer.parseInt(datas[2] );
                     sec.setText( secTime +"" );
                     dataSet.add(data);
+
+                    LiveData item = new LiveData();
+                    item.setStength(Integer.parseInt( datas[1] ) );
+                    item.setTime(timeCount);
+                    live.add(item);
+                    setChart();
                 }
             }
         };
@@ -170,7 +245,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.i("디디" , data +"<==");
                 if(timeCount == TIME_MAX) {
                     try
                     {
@@ -301,4 +375,15 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         };
         queue.add(stringRequest);
     }
+
+
+
+    //implement
+
+   class  AxisiValueFormatter extends IndexAxisValueFormatter {
+       @Override
+       public String getFormattedValue(float value) {
+           return super.getFormattedValue(value);
+       }
+   }
 }

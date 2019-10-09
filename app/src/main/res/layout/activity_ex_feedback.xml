@@ -22,11 +22,13 @@
             android:gravity="center"
             android:textSize="24sp" />
 
-        <ImageView
-            android:id="@+id/imageView44"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/graph" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_margin="16dp" />
     </LinearLayout>
 
     <LinearLayout
