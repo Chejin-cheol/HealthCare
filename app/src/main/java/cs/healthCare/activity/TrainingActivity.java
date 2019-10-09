@@ -1,4 +1,4 @@
-﻿package cs.healthCare.activity;
+package cs.healthCare.activity;
 
 import android.Manifest;
 import android.app.Activity;

@@ -49,7 +49,6 @@
         <activity android:name=".activity.ExListActivity" />
         <activity android:name=".activity.ExDescriptionActivity" />
         <activity android:name=".activity.ExBluetoothTest" />
-        <activity android:name=".activity.TrainingActivity" />
 
         <service android:name=".service.CharacterService" />
         <service android:name=".service.BluetoothDataService" />
