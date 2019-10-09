@@ -32,13 +32,17 @@ import cs.healthCare.R;
 import cs.healthCare.activity.GrowUpExerciseActivity;
 import cs.healthCare.service.CharacterService;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment {
         public static Context _context;
         Intent _intent;
         CharacterService _service;
         View  root;
         ImageView character;
+        ImageView homePullUpBar, homePushUp, homeBelt;
         ViewGroup button_set;
+
+
+
 
         private final float ButtonRate = 0.15f;
         private final float ButtonMarginRate = 0.05f;
@@ -93,26 +97,51 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        homePullUpBar = (ImageView) root.findViewById(R.id.home_pull_up_bar);
+        homeBelt = (ImageView) root.findViewById(R.id.home_belt);
+        homePushUp = (ImageView) root.findViewById(R.id.home_pushup);
+
+        homePullUpBar.setOnClickListener(new View.OnClickListener(){
+            int i = 0;
+            ImageView imageview = null;
+
+            @Override
+            public void onClick(View view) {
+                i = 1 -i;
+
+                if(i == 0){
+                    if ( i == 0 ){
+                        imageview.setImageResource(R.drawable.home_pull_up_bar_click);
+                    }
+                    else{
+                        imageview.setImageResource(R.drawable.home_pull_up_bar);
+                    }
+                }
+            }//void onClick
+        });//
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.home_exercise :
-                Intent intent = new Intent(_context , GrowUpExerciseActivity.class);
-                startActivity(intent);
-                break;
-            case  R.id.home_friendly :
-                break;
-            case R.id.home_feed :
-                break;
-            case R.id.home_play :
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId())
+//        {
+//            case R.id.home_exercise :
+//                Intent intent = new Intent(_context , GrowUpExerciseActivity.class);
+//                startActivity(intent);
+//                break;
+//            case  R.id.home_friendly :
+//                break;
+//            case R.id.home_feed :
+//                break;
+//            case R.id.home_play :
+//                break;
+//        }
+//
+//    }// onClick
     private void setLayout()
     {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -126,7 +155,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(buttonSize , buttonSize);
             params.setMargins(buttonMargin , buttonMargin ,buttonMargin ,buttonMargin);
             v.setLayoutParams(params);
-            v.setOnClickListener(this);
+            v.setOnClickListener((View.OnClickListener) this);
         }
     }
 }
