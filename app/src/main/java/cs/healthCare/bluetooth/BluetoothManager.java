@@ -147,6 +147,7 @@ public class BluetoothManager {
 
     public void destroy()
     {
+        _service.sendData("x".getBytes());
         if(searchReceiver != null)
         {
             context.unregisterReceiver(searchReceiver);
