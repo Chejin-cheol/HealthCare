@@ -3,6 +3,8 @@ package cs.healthCare.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,9 +26,10 @@ import cs.healthCare.adapter.HealthListRecyclerAdapter;
 import cs.healthCare.model.HealthListData;
 import cs.healthCare.network.Resource;
 
-public class ExListActivity extends AppCompatActivity {
+public class ExListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView recyclerView;
     private HealthListRecyclerAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshExList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class ExListActivity extends AppCompatActivity {
          Intent i = getIntent();
          int id = i.getExtras().getInt("list_id");
          recyclerView = findViewById(R.id.ex_recycler);
+         swipeRefreshExList = findViewById(R.id.swipeRefreshExList);
          LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
          adapter = new HealthListRecyclerAdapter();
@@ -84,4 +88,15 @@ public class ExListActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
     }
-}
+
+    @Override
+    public void onRefresh() {
+        recyclerView.postDelayed(new Runnable(){
+            @Override
+            public void run(){
+                Snackbar.make(recyclerView,"Refresh Succes", Snackbar.LENGTH_SHORT).show();
+                swipeRefreshExList.setRefreshing(false);
+            }//run()
+        },500); //recyclerView.postDelayed
+    }//onRefresh()
+}//class ExListActivity
