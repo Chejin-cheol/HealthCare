@@ -84,6 +84,9 @@ public class HomeFragment extends Fragment {
             homePullUpBar = (ImageView) root.findViewById(R.id.home_pull_up_bar);
             homeBelt = (ImageView) root.findViewById(R.id.home_belt);
             homePushUp = (ImageView) root.findViewById(R.id.home_pushup);
+            homePushUp.setImageResource(R.drawable.home_pushup);
+            homePullUpBar.setImageResource(R.drawable.home_pull_up_bar);
+
 
             character.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,6 +101,27 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
+            homePullUpBar.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            homePullUpBar.setImageResource(R.drawable.home_pull_up_bar_click);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            homePullUpBar.setImageResource(R.drawable.home_pull_up_bar);
+                            Intent intent = new Intent(root.getContext() , ExDescriptionActivity.class);
+                            intent.putExtra("list_id",2015);
+                            startActivity(intent);
+                            break;
+                        default:
+                            break;
+                    }
+                    return true;
+                }
+            });
+
+
 
             homePushUp.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -105,11 +129,9 @@ public class HomeFragment extends Fragment {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             homePushUp.setImageResource(R.drawable.home_pushup_click);
-                            Log.i("클릭했을때","ㅇㅇ");
                             break;
                         case MotionEvent.ACTION_UP:
                             homePushUp.setImageResource(R.drawable.home_pushup);
-                            Log.i("클릭안했을때","ㅇㅇ");
                             Intent intent = new Intent(root.getContext() , ExDescriptionActivity.class);
                             intent.putExtra("list_id",2007);
                             startActivity(intent);

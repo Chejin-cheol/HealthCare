@@ -38,8 +38,7 @@
                 android:id="@+id/home_pull_up_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:background="@drawable/home_pull_up_bar"></ImageView>
+                android:layout_weight="0.1"></ImageView>
         </LinearLayout>
 
         <LinearLayout
@@ -99,8 +98,7 @@
                             android:id="@+id/home_pushup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/home_pushup"></ImageView>
+                            android:layout_weight="0.2"></ImageView>
 
                         <LinearLayout
                             android:layout_width="match_parent"
