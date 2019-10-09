@@ -7,6 +7,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +20,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +80,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
     BluetoothManager manager;
     TextView timeText ;
     TextView Ex , strength , number, sec;
+    ImageView health;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100 ;
 
@@ -108,6 +113,14 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
     private void setView()
     {
+        health = findViewById(R.id.health);
+        File imgFile = new  File(getFilesDir() + "/images/"  + 2007 + ".jpg");
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            health.setImageBitmap(myBitmap);
+        }
+
+
         timeText = findViewById(R.id.time);
         Ex = findViewById(R.id.Ex);
         result = findViewById(R.id.result);
@@ -115,6 +128,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         strength = findViewById(R.id.Strength);
         number = findViewById(R.id.number);
         sec = findViewById(R.id.sec);
+
     }
     private  void setViewSize()
     {
@@ -145,12 +159,12 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                 String[] datas =  data.split("-");
                 number.setText(datas[2]);
                 strength.setText(datas[1]);
-//                Toast.makeText(getApplicationContext(),"숫자" + .contains("\r"),Toast.LENGTH_SHORT).show();
+                datas[2] = datas[2].replace("\r","").replace(" ","");
 
                 if(_count != Integer.parseInt(datas[2]) )
                 {
                     long current = System.currentTimeMillis();
-                    double secTime =( current - _time )/1000;
+                    double secTime =( current - _time )/1000.0;
                     _time = current;
                     datas[2] = datas[2].replace("\r","");
                     _count = Integer.parseInt(datas[2] );
@@ -158,7 +172,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                 }
             }
         };
-
     }
 
     private void startTimeTask()
