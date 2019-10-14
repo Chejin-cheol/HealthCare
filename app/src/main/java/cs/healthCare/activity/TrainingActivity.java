@@ -294,6 +294,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         sendData(jsonObject.toString());
         super.onDestroy();
         manager.destroy();
+        timer.cancel();
     }
 
     @Override
@@ -302,7 +303,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
         if ( requestCode == BluetoothManager.BLUETOOTH_REQUEST_CODE  && resultCode == Activity.RESULT_OK)
         {
-            manager.getPairedDevice();
+            manager.setPairedDevice();
             manager.findBluetoothDevices();
         }
     }

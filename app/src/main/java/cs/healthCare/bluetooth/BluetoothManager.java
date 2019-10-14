@@ -1,7 +1,6 @@
 package cs.healthCare.bluetooth;
 
 import android.app.Activity;
-import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -11,22 +10,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import cs.healthCare.receiver.BluetoothSearchReciever;
 import cs.healthCare.service.BluetoothDataService;
-import cs.healthCare.service.CharacterService;
 
 public class BluetoothManager {
     public static int BLUETOOTH_REQUEST_CODE = 100;
@@ -69,7 +57,7 @@ public class BluetoothManager {
         }
         else
         {
-            getPairedDevice();
+            setPairedDevice();
         }
     }
 
@@ -85,7 +73,7 @@ public class BluetoothManager {
         context.registerReceiver(searchReceiver, searchFilter);
     }
 
-    public void getPairedDevice()
+    public void setPairedDevice()
     {
         // 이미 페어링된 디바이스 연결
         Set<BluetoothDevice> bounded = mBluetoothAdapter.getBondedDevices();
