@@ -124,7 +124,9 @@ public class BluetoothDataService extends Service {
     public void sendData(byte[] data)
     {
         try {
-            outputStream.write(data);
+            if(outputStream != null) {
+                outputStream.write(data);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,17 +134,17 @@ public class BluetoothDataService extends Service {
 
     private void disConnect()
     {
-        try
-        {
-            inputStream.close();
-            inputStream = null;
-            outputStream.close();
-            outputStream = null;
-            socket.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+        if(inputStream != null && outputStream != null) {
+            try {
+
+                inputStream.close();
+                inputStream = null;
+                outputStream.close();
+                outputStream = null;
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -270,11 +270,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     finish();
                     return;
                 }
-//                if(timeCount % 2 == 0)
-//                {
-//                    dataSet.add(data);
-//
-//                }
+
                 ++timeCount;
                 timeHandler.sendEmptyMessage(timeCount);
             }
