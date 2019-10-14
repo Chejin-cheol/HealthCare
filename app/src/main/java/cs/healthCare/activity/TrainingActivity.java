@@ -60,11 +60,14 @@ import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 public class TrainingActivity extends Activity  implements BluetoothClient  {
     int timeCount = 0;
-    int TIME_MAX = 60;
+    int TIME_MAX = 10;
+    private boolean startFlag = false;
     private long _time = 0;
     private int _count = 0;
     private Calendar calendar = Calendar.getInstance();
     private DateFormat dateFormat;
+    private Intent feedBackIntent;
+
 
     private JSONObject jsonObject;
     private String data = "";
@@ -119,7 +122,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             health.setImageBitmap(myBitmap);
         }
-
 
         timeText = findViewById(R.id.time);
         Ex = findViewById(R.id.Ex);
@@ -207,7 +209,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         dataHander = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-
+                Log.i("아이템",msg.obj.toString()+"<==");
                 if(dataSet.size() == 0)
                 {
                     _time = System.currentTimeMillis();
@@ -249,25 +251,25 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
                     try
                     {
                         JSONArray ja = new JSONArray();
-                        for (int i = 0; i < dataSet.size(); i++) {
+                        for (int i = 0; i < live.size(); i++) {
                             JSONObject jo = new JSONObject();
-                            jo.put("value", dataSet.get(i));
+                            jo.put("time", live.get(i).getTime());
+                            jo.put("value" , live.get(i).getStength());
                             ja.put(jo);
                         }
                         jsonObject.put("id",MainActivity.mid);
+                        jsonObject.put("count",_count);
+                        jsonObject.put("type", 2007);
                         jsonObject.put("data", ja);
-                        jsonObject.put("type",1);
-                        Log.i("종료","종료 " +data.toString());
+
+                        Log.i("종료","종료 " +jsonObject.toString());
                         dataSet.clear();
                         cancel();
                     }
                     catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Intent intent = new Intent(TrainingActivity.this , ex_feedback.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+                    sendData(jsonObject.toString());
                     return;
                 }
 
@@ -287,7 +289,7 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
 
     @Override
     protected void onDestroy() {
-        sendData(jsonObject.toString());
+
         super.onDestroy();
         manager.destroy();
         timer.cancel();
@@ -335,10 +337,6 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         startTimeTask();
     }
 
-
-
-
-
     private void sendData(String query){
         final String jsonString = query;
         queue = Volley.newRequestQueue(this);
@@ -347,10 +345,13 @@ public class TrainingActivity extends Activity  implements BluetoothClient  {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                if (response.equals("Fail"))
+                if (!response.equals("Fail"))
                 {
-
+                    Log.i("응답", response);
+                    feedBackIntent= new Intent(TrainingActivity.this , ex_feedback.class);
+                    feedBackIntent.putExtra("feed_back",response);
+                    startActivity(feedBackIntent);
+                    finish();
                 }
                 else
                 {

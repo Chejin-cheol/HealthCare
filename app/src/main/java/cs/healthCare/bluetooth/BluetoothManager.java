@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.Set;
 
@@ -38,6 +39,7 @@ public class BluetoothManager {
             _service = binder.getService();
             if(device != null)
             {
+                Log.i("이름","서비스");
                 _service.setClient((BluetoothClient) context);
                 _service.setSocket(device);
             }
@@ -61,16 +63,24 @@ public class BluetoothManager {
         }
     }
 
+    public boolean available()
+    {
+        return  device != null;
+    }
+
     private void setReceivers()
     {
-        searchReceiver = new BluetoothSearchReciever(this);
-        IntentFilter searchFilter = new IntentFilter();
-        searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED); ////BluetoothAdapter.ACTION_DISCOVERY_STARTED : 블루투스 검색 시작
-        searchFilter.addAction(BluetoothDevice.ACTION_FOUND); //BluetoothDevice.ACTION_FOUND : 블루투스 디바이스 찾음
-        searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); //BluetoothAdapter.ACTION_DISCOVERY_FINISHED : 블루투스 검색 종료
-        searchFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); //BluetoothDevice.ACTION_BOND_STATE_CHANGED : 원격장치의 연결 상태가 변경 되었음을 알려준다.
-        searchFilter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-        context.registerReceiver(searchReceiver, searchFilter);
+        if(searchReceiver == null) {
+            searchReceiver = new BluetoothSearchReciever(this);
+            IntentFilter searchFilter = new IntentFilter();
+            searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED); ////BluetoothAdapter.ACTION_DISCOVERY_STARTED : 블루투스 검색 시작
+            searchFilter.addAction(BluetoothDevice.ACTION_FOUND); //BluetoothDevice.ACTION_FOUND : 블루투스 디바이스 찾음
+            searchFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); //BluetoothAdapter.ACTION_DISCOVERY_FINISHED : 블루투스 검색 종료
+            searchFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); //BluetoothDevice.ACTION_BOND_STATE_CHANGED : 원격장치의 연결 상태가 변경 되었음을 알려준다.
+            searchFilter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+            searchFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+            context.registerReceiver(searchReceiver, searchFilter);
+        }
     }
 
     public void setPairedDevice()
@@ -86,9 +96,11 @@ public class BluetoothManager {
                 setService();
             }
         }
+
         if(device == null)
         {
             setReceivers();
+            return;
         }
     }
 
@@ -113,13 +125,15 @@ public class BluetoothManager {
             try {
                 byte[] pin = "1234".getBytes();
                 device.setPin(pin);
-                device.setPairingConfirmation(true);
+                device.setPairingConfirmation(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             setService();
         }
     }
+
+
 
     private void setService()
     {
@@ -135,13 +149,14 @@ public class BluetoothManager {
 
     public void destroy()
     {
-        _service.sendData("x".getBytes());
-        if(searchReceiver != null)
-        {
-            context.unregisterReceiver(searchReceiver);
+        if(_service !=null) {
+            _service.sendData("x".getBytes());
+            if (searchReceiver != null) {
+                context.unregisterReceiver(searchReceiver);
+            }
+            context.unbindService(_connection);
+            context.stopService(serviceIntent);
         }
-        context.unbindService(_connection);
-        context.stopService(serviceIntent);
     }
 
 }

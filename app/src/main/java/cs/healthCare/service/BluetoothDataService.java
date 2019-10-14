@@ -74,6 +74,7 @@ public class BluetoothDataService extends Service {
         }
         client.Binded();        // 액티비티에 소캣세팅 알림
         receiveData();
+        sendData("1".getBytes());
     }
 
     private void receiveData()
@@ -98,7 +99,6 @@ public class BluetoothDataService extends Service {
                                             byte[] encodedBytes = new byte[readBufferPosition];
                                             System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                             final String text = new String(encodedBytes, "US-ASCII");
-                                            Log.i("답", text );
                                             client.receiveData(text);
                                             readBufferPosition = 0;
                                         } else {
@@ -161,7 +161,4 @@ public class BluetoothDataService extends Service {
         workerThread.interrupt();
         disConnect();
     }
-
-
-
 }

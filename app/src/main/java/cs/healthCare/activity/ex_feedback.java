@@ -37,50 +37,53 @@ public class ex_feedback extends AppCompatActivity {
     String a15 = "Error : 측정 값이 정확하지 않습니다. 다시 측정해주시길 바랍니다.";
     String a16 = "수행 시간이 빨라지고, 측정 횟수가 증가하였습니다. 하지만 근력 수치가 감소했습니다.";
     Random rnd = new Random();
-    TextView textView15;
+    TextView feedBack;
     LineChart chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ex_feedback);
-        textView15=findViewById(R.id.textView15);
+        feedBack=findViewById(R.id.textView15);
         chart = findViewById(R.id.result);
         int p = rnd.nextInt(15);
-        switch(p){
-            case 0:
-                textView15.setText(a1);
-            case 1:
-                textView15.setText(a2);
-            case 2:
-                textView15.setText(a3);
-            case 3:
-                textView15.setText(a4);
-            case 4:
-                textView15.setText(a5);
-            case 6:
-                textView15.setText(a6);
-            case 7:
-                textView15.setText(a7);
-            case 8:
-                textView15.setText(a8);
-            case 9:
-                textView15.setText(a9);
-            case 10:
-                textView15.setText(a10);
-            case 11:
-                textView15.setText(a11);
-            case 12:
-                textView15.setText(a12);
-            case 13:
-                textView15.setText(a13);
-            case 14:
-                textView15.setText(a14);
-            case 15:
-                textView15.setText(a15);
-            case 16:
-                textView15.setText(a16);
-        }
+//        switch(p){
+//            case 0:
+//                feedBack.setText(a1);
+//            case 1:
+//                feedBack.setText(a2);
+//            case 2:
+//                feedBack.setText(a3);
+//            case 3:
+//                feedBack.setText(a4);
+//            case 4:
+//                feedBack.setText(a5);
+//            case 6:
+//                feedBack.setText(a6);
+//            case 7:
+//                feedBack.setText(a7);
+//            case 8:
+//                feedBack.setText(a8);
+//            case 9:
+//                feedBack.setText(a9);
+//            case 10:
+//                feedBack.setText(a10);
+//            case 11:
+//                feedBack.setText(a11);
+//            case 12:
+//                feedBack.setText(a12);
+//            case 13:
+//                feedBack.setText(a13);
+//            case 14:
+//                feedBack.setText(a14);
+//            case 15:
+//                feedBack.setText(a15);
+//            case 16:
+//                feedBack.setText(a16);
+//        }
+
+        String result =   getIntent().getExtras().getString("feed_back");
+        feedBack.setText(result);
         setChart();
     }
 
@@ -88,8 +91,6 @@ public class ex_feedback extends AppCompatActivity {
     private void setChart() {
         chart.invalidate(); //차트 초기화 작업
         chart.clear();
-
-
 
         ArrayList<Entry> values = new ArrayList<Entry>();
 

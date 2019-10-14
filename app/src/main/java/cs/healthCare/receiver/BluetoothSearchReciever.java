@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import cs.healthCare.activity.ExBluetoothTest;
 
@@ -52,13 +53,13 @@ public class BluetoothSearchReciever extends BroadcastReceiver {
 
             //블루투스 디바이스 페어링 상태 변화
             case BluetoothDevice.ACTION_BOND_STATE_CHANGED: //원격장치의 연결 상태가 변경 되었음을 알려줬을 때,
-                Log.i("페어링","페어링 변경");
+                Log.i("이름","페어링 변경");
+//                _bluetoothManager.setPairedDevice();
                 break;
 
             case BluetoothDevice.ACTION_PAIRING_REQUEST :
                 _bluetoothManager.pairing();
                  break;
-
         }
     }
 }
